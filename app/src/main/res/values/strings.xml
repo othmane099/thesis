@@ -4,4 +4,5 @@
     <string name="continue_without_login">Continue Without Login</string>
     <string name="welcome_to_thesis_app">Welcome to Thesis App</string>
     <string name="logo">logo</string>
+    <string name="new_user_signup">New User? <b>SignUp</b></string>
 </resources>

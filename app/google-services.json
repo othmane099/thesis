@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "262824377556",
+    "project_id": "thesis-df25d",
+    "storage_bucket": "thesis-df25d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:262824377556:android:865509792f65dc69748f41",
+        "android_client_info": {
+          "package_name": "com.odev.thesis"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "262824377556-bk6sh3t123gmvvtrjkulb6q7ninq2f9n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.odev.thesis",
+            "certificate_hash": "3aa66e2b3fd3e8511c5918577689dd42df21524d"
+          }
+        },
+        {
+          "client_id": "262824377556-bd2stkdo2d3tqnpm62d07pfb8avlhqnf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArK981yPf5XmW7Yb4ihClJ9abwlAmdss0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "262824377556-bd2stkdo2d3tqnpm62d07pfb8avlhqnf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
