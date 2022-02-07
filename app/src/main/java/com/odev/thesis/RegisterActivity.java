@@ -1,12 +1,15 @@
 package com.odev.thesis;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
@@ -15,6 +18,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.odev.thesis.databinding.ActivityRegisterBinding;
@@ -33,6 +37,9 @@ public class RegisterActivity extends AppCompatActivity {
     //progress dialog
     private ProgressDialog progressDialog;
 
+    private final static String TAG = "REGISTER_ACTIVITY_TAG";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +48,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         //init firebase auth
         firebaseAuth = FirebaseAuth.getInstance();
+
+
 
         //setup progress dialog
         progressDialog = new ProgressDialog(this);
@@ -145,8 +154,12 @@ public class RegisterActivity extends AppCompatActivity {
                         //data added to db
                         progressDialog.dismiss();
                         Toast.makeText(RegisterActivity.this, "Account created...", Toast.LENGTH_SHORT).show();
+
+                        // check user email
+                        sendEmailVerification();
+
                         //since user account is created so start dashboard of user
-                        startActivity(new Intent(RegisterActivity.this, UserDashboardActivity.class));
+                        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                         finish();
                     }
                 })
@@ -159,4 +172,30 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    private void sendEmailVerification() {
+        Log.d(TAG, "sendEmailVerification: ");
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+        progressDialog.setMessage("Sending email verification instructions to your email "+firebaseUser.getEmail());
+        progressDialog.show();
+
+
+        firebaseUser.sendEmailVerification()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        progressDialog.dismiss();
+                        Toast.makeText(RegisterActivity.this, "Instructions sent check your email "+firebaseUser.getEmail(), Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismiss();
+                        Toast.makeText(RegisterActivity.this, "Failed due to "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
 }

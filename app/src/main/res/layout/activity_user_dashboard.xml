@@ -30,7 +30,7 @@
             android:layout_centerHorizontal="true"
             android:layout_below="@id/titleTv"
             android:hint="abc@exemple.com"
-            android:textColor="@color/white"/>
+            android:textColorHint="@color/white"/>
 
         <ImageButton
             android:id="@+id/logoutBtn"

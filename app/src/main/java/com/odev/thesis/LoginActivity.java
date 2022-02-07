@@ -119,6 +119,12 @@ public class LoginActivity extends AppCompatActivity {
         // get current user
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
+        if(!firebaseUser.isEmailVerified()){
+            progressDialog.dismiss();
+            Toast.makeText(LoginActivity.this, "Your email is not Verified !", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         //check in db
         DatabaseReference ref = FirebaseDatabase
                 .getInstance()
@@ -133,21 +139,17 @@ public class LoginActivity extends AppCompatActivity {
                         String userType = ""+snapshot.child("userType").getValue();
                         //check user type
                         if (userType.equals("user")){
-//                            //this is simple user, open user dashboard
-//                            startActivity(new Intent(LoginActivity.this, UserDashboardActivity.class));
-//                            finish();
-
+                            //this is simple user, open user dashboard
                             Intent intent = new Intent(LoginActivity.this, UserDashboardActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
                             finish();
                         }else if (userType.equals("admin")){
                             //this is admin, open admin dashboard
                             Intent intent = new Intent(LoginActivity.this, AdminDashboardActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
                             finish();
-
                         }
                     }
 
@@ -159,5 +161,4 @@ public class LoginActivity extends AppCompatActivity {
                 });
 
     }
-
 }
