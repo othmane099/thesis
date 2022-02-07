@@ -1,4 +1,4 @@
-package com.odev.thesis;
+package com.odev.thesis.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 

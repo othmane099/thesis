@@ -1,8 +1,10 @@
-package com.odev.thesis;
+package com.odev.thesis.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.odev.thesis.R;
 
 public class AdminDashboardActivity extends AppCompatActivity {
 

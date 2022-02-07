@@ -1,4 +1,4 @@
-package com.odev.thesis;
+package com.odev.thesis.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +14,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.odev.thesis.R;
 
 
 public class SplashActivity extends AppCompatActivity {
