@@ -23,7 +23,6 @@ public class CategoryAddActivity extends AppCompatActivity {
 
     private ActivityCategoryAddBinding binding;
     private FirebaseAuth firebaseAuth;
-    private ProgressDialog progressDialog;
 
 
     @Override
@@ -35,10 +34,7 @@ public class CategoryAddActivity extends AppCompatActivity {
         //init firebase auth
         firebaseAuth = FirebaseAuth.getInstance();
 
-        //setup progress dialog
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Please wait");
-        progressDialog.setCanceledOnTouchOutside(false);
+        hideProgressBarDisplayBtn();
 
         binding.backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,11 +46,13 @@ public class CategoryAddActivity extends AppCompatActivity {
         binding.submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                displayProgressBarHideBtn();
                 validateDate();
             }
         });
 
     }
+
 
     private String category = "";
     private void validateDate(){
@@ -69,8 +67,6 @@ public class CategoryAddActivity extends AppCompatActivity {
     }
 
     private void addCategoryFirebase(){
-        progressDialog.setMessage("Adding category...");
-        progressDialog.show();
 
         long timestamp = System.currentTimeMillis();
 
@@ -91,17 +87,28 @@ public class CategoryAddActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void unused) {
                         //data added to db
-                        progressDialog.dismiss();
+                        hideProgressBarDisplayBtn();
                         Toast.makeText(CategoryAddActivity.this, "Category added successfully...", Toast.LENGTH_SHORT).show();
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                //data failed adding to db
-                progressDialog.dismiss();
-                Toast.makeText(CategoryAddActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //data failed adding to db
+                        hideProgressBarDisplayBtn();
+                        Toast.makeText(CategoryAddActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
 
+    }
+
+    private void hideProgressBarDisplayBtn(){
+        binding.progressBar.setVisibility(View.GONE);
+        binding.submitBtn.setVisibility(View.VISIBLE);
+    }
+
+    private void displayProgressBarHideBtn(){
+        binding.progressBar.setVisibility(View.VISIBLE);
+        binding.submitBtn.setVisibility(View.GONE);
     }
 }

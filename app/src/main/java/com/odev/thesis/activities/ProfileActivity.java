@@ -73,7 +73,6 @@ public class ProfileActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
     }
 
     private void emailVerificationDialog() {

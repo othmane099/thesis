@@ -1,8 +1,10 @@
 package com.odev.thesis.activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -74,8 +76,8 @@ public class AdminDashboardActivity extends AppCompatActivity {
         binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firebaseAuth.signOut();
-                checkUser();
+                logout();
+//                checkUser();
             }
         });
 
@@ -148,5 +150,26 @@ public class AdminDashboardActivity extends AppCompatActivity {
             //set in textview of toolbar
             binding.subTitleTv.setText(email);
         }
+    }
+
+    private void logout(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Logout")
+                .setMessage("Are you sure you want to logout ?")
+                .setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        firebaseAuth.signOut();
+                        startActivity(new Intent(AdminDashboardActivity.this, MainActivity.class));
+                        finish();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
     }
 }

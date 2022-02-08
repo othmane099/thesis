@@ -21,8 +21,6 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
 
-    private ProgressDialog progressDialog;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,9 +29,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Please Wait...");
-        progressDialog.setCanceledOnTouchOutside(false);
+        hideProgressBarDisplayBtn();
 
         binding.backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,6 +41,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         binding.submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                displayProgressBarHideBtn();
                 validateData();
             }
         });
@@ -64,25 +61,33 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     }
 
     private void recoverPassword() {
-        progressDialog.setMessage("Sending password recovery instructions to "+email);
-        progressDialog.show();
 
         firebaseAuth.sendPasswordResetEmail(email)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        progressDialog.dismiss();
+                        hideProgressBarDisplayBtn();
                         Toast.makeText(ForgotPasswordActivity.this, "Instructions to reset password sent to "+email, Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
+                        hideProgressBarDisplayBtn();
                         Toast.makeText(ForgotPasswordActivity.this, "Failed to send due to "+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
+
+    private void hideProgressBarDisplayBtn(){
+        binding.progressBar.setVisibility(View.GONE);
+        binding.submitBtn.setVisibility(View.VISIBLE);
+    }
+
+    private void displayProgressBarHideBtn(){
+        binding.progressBar.setVisibility(View.VISIBLE);
+        binding.submitBtn.setVisibility(View.GONE);
+    }
 
 }
